@@ -63,6 +63,24 @@ def get_current_user(request):
     return load_user(user_id)
 ```
 
+## Verify it works
+
+No credentials, no services, no network. Clone it and run the suite:
+
+```bash
+python -m pytest test_auth.py -q
+```
+
+Expected output:
+
+```
+15 passed
+```
+
+That covers token signing and verification, expiry, single-use enforcement,
+tampering, and a check that `_verify_token` uses `hmac.compare_digest` rather
+than `==`. If any of those fail, the auth is not safe to copy.
+
 ## What this is not
 
 - **An identity provider.** This signs and verifies tokens. It does not store users, send emails, or manage sessions in a database. You wire those parts up.
